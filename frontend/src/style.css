@@ -1,0 +1,90 @@
+/* ===== 全局重置 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== 字体 & 基础 ===== */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f9fafb;
+    color: #333;
+}
+
+/* ===== 滚动条优化（好看很多） ===== */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+/* ===== 按钮统一风格 ===== */
+button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+/* ===== 输入框 ===== */
+input {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #3b82f6;
+}
+
+/* ===== 标题 ===== */
+h2, h3, h4 {
+    margin-bottom: 10px;
+}
+
+/* ===== 卡片风格（Agent / 图表都能用） ===== */
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* ===== 聊天气泡基础（统一风格） ===== */
+.bubble {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 6px 0;
+    max-width: 70%;
+}
+
+/* 角色颜色（统一管理） */
+.pm { background: #dbeafe; }
+.qa { background: #ffffff; border:1px solid #eee; }
+.arch { background: #ecfdf5; }
+.invest { background: #fef3c7; }
+.final { background: #dcfce7; }
+.system { text-align:center; color:#888; }
+
+/* ===== 动画（微交互加分） ===== */
+.fade-enter-active {
+    transition: all 0.3s ease;
+}
+
+.fade-enter-from {
+    opacity: 0;
+    transform: translateY(10px);
+}
