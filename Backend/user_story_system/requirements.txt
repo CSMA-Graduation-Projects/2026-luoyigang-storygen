@@ -1,0 +1,11 @@
+fastapi~=0.135.1
+uvicorn~=0.41.0
+openai
+autogenstudio
+autogen-agentchat
+autogen-ext
+reportlab~=4.4.10
+python-docx
+pypdf
+python-multipart
+pymongo

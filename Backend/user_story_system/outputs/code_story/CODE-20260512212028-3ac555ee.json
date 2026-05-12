@@ -1,0 +1,113 @@
+{
+  "code_story_id": "CODE-20260512212028-3ac555ee",
+  "filename": "index.js",
+  "language": "javascript",
+  "split_mode": "whole",
+  "summary": "该代码单元实现了Vue Router的路由配置，定义了多个前端页面路径与视图组件的映射关系，支持用户通过URL导航到不同功能页面。",
+  "nodes": [
+    {
+      "id": "CODE-001",
+      "name": "index",
+      "qualified_name": "index",
+      "type": "code_block",
+      "language": "javascript",
+      "file": "index.js",
+      "line": 1,
+      "signature": "整体代码片段",
+      "code_snippet": "import { createRouter, createWebHistory } from \"vue-router\"\n\nimport ChatView from \"../views/ChatView.vue\"\nimport RadarView from \"../views/RadarView.vue\"\nimport LineView from \"../views/LineView.vue\"\nimport AgentView from \"@/views/AgentView.vue\"\nimport CodeStoryView from \"@/views/CodeStoryView.vue\"\nimport DocumentStoryView from \"@/views/DocumentStoryView.vue\"\nimport ProjectStoryView from \"@/views/ProjectStoryView.vue\"\nimport UserStoryOptimizationView from \"@/views/UserStoryOptimizationView.vue\"\nimport HistoryStoryView from \"@/views/HistoryStoryView.vue\"\n\nconst routes = [\n    { path: \"/\", component: ChatView },\n    { path: \"/code-story\", component: CodeStoryView },\n    { path: \"/document-story\", component: DocumentStoryView },\n    { path: \"/project-story\", component: ProjectStoryView },\n    { path: \"/story-optimization\", component: UserStoryOptimizationView },\n    { path: \"/analysis/radar\", component: RadarView },\n    { path: \"/analysis/line\", component: LineView },\n    { path: \"/history-stories\", component: HistoryStoryView },\n    { path: \"/agent\", component: AgentView },\n]\n\nexport default createRouter({\n    history: createWebHistory(),\n    routes\n})\n",
+      "docstring": "",
+      "calls": [],
+      "children": [],
+      "parent_id": null,
+      "module": "index",
+      "depth": 0,
+      "split_strategy": "整体分析：未识别到可拆分的函数/方法/类"
+    }
+  ],
+  "edges": [],
+  "graph": {
+    "nodes": [
+      {
+        "id": "CODE-001",
+        "name": "index\ncode_block",
+        "category": 0,
+        "symbolSize": 44,
+        "value": 0,
+        "node": {
+          "id": "CODE-001",
+          "name": "index",
+          "qualified_name": "index",
+          "type": "code_block",
+          "language": "javascript",
+          "file": "index.js",
+          "line": 1,
+          "signature": "整体代码片段",
+          "code_snippet": "import { createRouter, createWebHistory } from \"vue-router\"\n\nimport ChatView from \"../views/ChatView.vue\"\nimport RadarView from \"../views/RadarView.vue\"\nimport LineView from \"../views/LineView.vue\"\nimport AgentView from \"@/views/AgentView.vue\"\nimport CodeStoryView from \"@/views/CodeStoryView.vue\"\nimport DocumentStoryView from \"@/views/DocumentStoryView.vue\"\nimport ProjectStoryView from \"@/views/ProjectStoryView.vue\"\nimport UserStoryOptimizationView from \"@/views/UserStoryOptimizationView.vue\"\nimport HistoryStoryView from \"@/views/HistoryStoryView.vue\"\n\nconst routes = [\n    { path: \"/\", component: ChatView },\n    { path: \"/code-story\", component: CodeStoryView },\n    { path: \"/document-story\", component: DocumentStoryView },\n    { path: \"/project-story\", component: ProjectStoryView },\n    { path: \"/story-optimization\", component: UserStoryOptimizationView },\n    { path: \"/analysis/radar\", component: RadarView },\n    { path: \"/analysis/line\", component: LineView },\n    { path: \"/history-stories\", component: HistoryStoryView },\n    { path: \"/agent\", component: AgentView },\n]\n\nexport default createRouter({\n    history: createWebHistory(),\n    routes\n})\n",
+          "docstring": "",
+          "calls": [],
+          "children": [],
+          "parent_id": null,
+          "module": "index",
+          "depth": 0,
+          "split_strategy": "整体分析：未识别到可拆分的函数/方法/类"
+        }
+      }
+    ],
+    "links": [],
+    "categories": [
+      {
+        "name": "code_block"
+      }
+    ]
+  },
+  "items": [
+    {
+      "node_id": "CODE-001",
+      "requirement": {
+        "title": "前端路由导航能力",
+        "role": "用户",
+        "description": "用户需要能够通过浏览器URL访问不同的功能页面（如首页、代码故事、文档故事、项目故事、故事优化、分析图表、历史故事和代理页面），以实现应用内导航。",
+        "business_rules": [
+          "每个路径必须对应一个唯一的视图组件",
+          "路由使用HTML5 History模式，不支持hash模式",
+          "根路径'/'渲染ChatView组件"
+        ]
+      },
+      "user_story": {
+        "id": "US-001",
+        "story": "As a 用户, I want 通过不同的URL路径访问对应的功能页面, So that 我可以在单页应用中切换查看不同功能模块。",
+        "acceptance_criteria": [
+          "Given 用户访问根路径'/' When 页面加载 Then 应渲染ChatView组件",
+          "Given 用户访问'/code-story' When 页面加载 Then 应渲染CodeStoryView组件",
+          "Given 用户访问'/document-story' When 页面加载 Then 应渲染DocumentStoryView组件",
+          "Given 用户访问'/project-story' When 页面加载 Then 应渲染ProjectStoryView组件",
+          "Given 用户访问'/story-optimization' When 页面加载 Then 应渲染UserStoryOptimizationView组件",
+          "Given 用户访问'/analysis/radar' When 页面加载 Then 应渲染RadarView组件",
+          "Given 用户访问'/analysis/line' When 页面加载 Then 应渲染LineView组件",
+          "Given 用户访问'/history-stories' When 页面加载 Then 应渲染HistoryStoryView组件",
+          "Given 用户访问'/agent' When 页面加载 Then 应渲染AgentView组件"
+        ]
+      },
+      "technical_reasoning": "该需求由代码中的路由配置推导得到：代码使用Vue Router的createRouter和createWebHistory方法，定义了一个包含9个路径的routes数组，每个路径映射到一个从'../views/'或'@/views/'导入的Vue组件。代码导出了创建好的router实例，说明该模块负责提供路由功能。没有调用其他函数，但其他页面视图组件依赖此路由配置。",
+      "incoming": [],
+      "outgoing": [],
+      "node": {
+        "id": "CODE-001",
+        "name": "index",
+        "qualified_name": "index",
+        "type": "code_block",
+        "language": "javascript",
+        "file": "index.js",
+        "line": 1,
+        "signature": "整体代码片段",
+        "code_snippet": "import { createRouter, createWebHistory } from \"vue-router\"\n\nimport ChatView from \"../views/ChatView.vue\"\nimport RadarView from \"../views/RadarView.vue\"\nimport LineView from \"../views/LineView.vue\"\nimport AgentView from \"@/views/AgentView.vue\"\nimport CodeStoryView from \"@/views/CodeStoryView.vue\"\nimport DocumentStoryView from \"@/views/DocumentStoryView.vue\"\nimport ProjectStoryView from \"@/views/ProjectStoryView.vue\"\nimport UserStoryOptimizationView from \"@/views/UserStoryOptimizationView.vue\"\nimport HistoryStoryView from \"@/views/HistoryStoryView.vue\"\n\nconst routes = [\n    { path: \"/\", component: ChatView },\n    { path: \"/code-story\", component: CodeStoryView },\n    { path: \"/document-story\", component: DocumentStoryView },\n    { path: \"/project-story\", component: ProjectStoryView },\n    { path: \"/story-optimization\", component: UserStoryOptimizationView },\n    { path: \"/analysis/radar\", component: RadarView },\n    { path: \"/analysis/line\", component: LineView },\n    { path: \"/history-stories\", component: HistoryStoryView },\n    { path: \"/agent\", component: AgentView },\n]\n\nexport default createRouter({\n    history: createWebHistory(),\n    routes\n})\n",
+        "split_strategy": "整体分析：未识别到可拆分的函数/方法/类"
+      }
+    }
+  ],
+  "statistics": {
+    "unit_count": 1,
+    "edge_count": 0,
+    "story_count": 1
+  }
+}
