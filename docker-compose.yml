@@ -1,0 +1,60 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: user-story-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: user_story_system
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - user_story_net
+
+  backend:
+    build:
+      context: ./Backend/user_story_system
+      dockerfile: Dockerfile
+    container_name: user-story-backend
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    ports:
+      - "8000:8000"
+    environment:
+      MONGODB_URL: mongodb://mongodb:27017
+      MONGODB_DB: user_story_system
+      MONGODB_AGENT_CONFIG_COLLECTION: agent_configs
+      MONGODB_PROJECT_STORY_COLLECTION: project_story_results
+
+      MODEL_NAME: ${MODEL_NAME:-deepseek-v4-flash}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.deepseek.com/v1}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+      PYTHONUNBUFFERED: 1
+    volumes:
+      - backend_outputs:/app/outputs
+    networks:
+      - user_story_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: user-story-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    networks:
+      - user_story_net
+
+volumes:
+  mongodb_data:
+  backend_outputs:
+
+networks:
+  user_story_net:
+    driver: bridge

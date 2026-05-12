@@ -1,12 +1,13 @@
-const BASE_URL = 'http://localhost:8000'
+//const BASE_URL = 'http://localhost:8000'
+const BASE_URL = '/api'
 
-// ⭐ 原有 SSE 连接：文本需求到用户故事
+//原有 SSE 连接：文本需求到用户故事
 export const createSSE = (requirement) => {
     const url = `${BASE_URL}/generate_story_stream?requirement=${encodeURIComponent(requirement)}`
     return new EventSource(url)
 }
 
-// ⭐ 代码片段到用户故事：独立代码解析，不复用文本需求生成流程
+//代码片段到用户故事：独立代码解析，不复用文本需求生成流程
 export const analyzeCodeStory = async (payload) => {
     const res = await fetch(`${BASE_URL}/code_story/analyze`, {
         method: 'POST',
@@ -24,7 +25,7 @@ export const analyzeCodeStory = async (payload) => {
     return await res.json()
 }
 
-// ⭐ 单个代码文件到用户故事：后端读取文件并分析
+//单个代码文件到用户故事：后端读取文件并分析
 export const analyzeCodeStoryFile = async (file, language = '') => {
     const formData = new FormData()
     formData.append('file', file)
@@ -43,7 +44,7 @@ export const analyzeCodeStoryFile = async (file, language = '') => {
     return await res.json()
 }
 
-// ⭐ 代码用户故事导出：Word / PDF / Markdown / JSON
+//代码用户故事导出：Word / PDF / Markdown / JSON
 export const exportCodeStory = async (codeStoryId, format = 'markdown') => {
     const res = await fetch(`${BASE_URL}/code_story/${codeStoryId}/export?format=${format}`)
 
@@ -63,14 +64,14 @@ export const exportCodeStory = async (codeStoryId, format = 'markdown') => {
     downloadBlob(await res.blob(), filenameMap[format] || filenameMap.markdown)
 }
 
-// ⭐ 兼容旧代码：POST + 流式读取 SSE 文本
+//兼容旧代码：POST + 流式读取 SSE 文本
 export const generateStoryFromCodeStream = async (payload, onMessage) => {
     const result = await analyzeCodeStory(payload)
     onMessage({ type: 'code_story_result', data: result })
     onMessage({ type: 'done' })
 }
 
-// ⭐ 需求文档到用户故事：上传 Word / PDF / Markdown / TXT
+//需求文档到用户故事：上传 Word / PDF / Markdown / TXT
 export const analyzeRequirementDocument = async (file) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -88,7 +89,7 @@ export const analyzeRequirementDocument = async (file) => {
     return await res.json()
 }
 
-// ⭐ 需求文档批量导出
+//需求文档批量导出
 export const exportDocumentStory = async (documentId, format = 'markdown') => {
     const res = await fetch(`${BASE_URL}/document_story/${documentId}/export?format=${format}`)
 
@@ -99,7 +100,7 @@ export const exportDocumentStory = async (documentId, format = 'markdown') => {
     downloadBlob(await res.blob(), format === 'json' ? '需求文档用户故事.json' : '需求文档用户故事.md')
 }
 
-// ⭐ 整个项目源码到用户故事：上传 zip / tar / tar.gz / tgz 项目文件
+//整个项目源码到用户故事：上传 zip / tar / tar.gz / tgz 项目文件
 export const analyzeProjectSource = async (file) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -118,7 +119,7 @@ export const analyzeProjectSource = async (file) => {
 }
 
 
-// ⭐ 整个项目源码到用户故事：流式逐节点返回
+//整个项目源码到用户故事：流式逐节点返回
 export const analyzeProjectSourceStream = async (file, onMessage) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -154,7 +155,7 @@ export const analyzeProjectSourceStream = async (file, onMessage) => {
     }
 }
 
-// ⭐ 查询某个函数 / 类节点对应的用户故事
+//查询某个函数 / 类节点对应的用户故事
 export const getProjectNodeStory = async (projectId, nodeId) => {
     const res = await fetch(`${BASE_URL}/project_story/${projectId}/nodes/${nodeId}`)
 
@@ -165,7 +166,7 @@ export const getProjectNodeStory = async (projectId, nodeId) => {
     return await res.json()
 }
 
-// ⭐ 项目源码用户故事批量导出
+//项目源码用户故事批量导出
 export const exportProjectStory = async (projectId, format = 'markdown') => {
     const res = await fetch(`${BASE_URL}/project_story/${projectId}/export?format=${format}`)
 
@@ -201,7 +202,7 @@ const downloadBlob = (blob, filename) => {
     window.URL.revokeObjectURL(url)
 }
 
-// ⭐ PDF导出
+//PDF导出
 export const exportPDF = async (payload) => {
 
     const res = await fetch(`${BASE_URL}/export_pdf`, {
@@ -216,7 +217,7 @@ export const exportPDF = async (payload) => {
     downloadBlob(blob, '用户故事报告.pdf')
 }
 
-// ⭐ 用户故事优化：上传用户故事文档并逐条优化
+//用户故事优化：上传用户故事文档并逐条优化
 export const optimizeUserStoryDocument = async (file) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -234,7 +235,7 @@ export const optimizeUserStoryDocument = async (file) => {
     return await res.json()
 }
 
-// ⭐ 查询单条用户故事优化详情
+//查询单条用户故事优化详情
 export const getUserStoryOptimizationItem = async (optimizationId, storyId) => {
     const res = await fetch(`${BASE_URL}/story_optimization/${optimizationId}/items/${storyId}`)
 
@@ -245,7 +246,7 @@ export const getUserStoryOptimizationItem = async (optimizationId, storyId) => {
     return await res.json()
 }
 
-// ⭐ 历史记录：文本 / 代码 / 文档 / 项目源码
+//历史记录：文本 / 代码 / 文档 / 项目源码
 export const getStoryHistoryList = async (type, limit = 50) => {
     const res = await fetch(`${BASE_URL}/history/${type}?limit=${limit}`)
     if (!res.ok) {
@@ -265,7 +266,7 @@ export const getStoryHistoryDetail = async (type, id) => {
 }
 
 
-// ⭐ 用户故事优化文档导出
+//用户故事优化文档导出
 export const exportUserStoryOptimization = async (optimizationId, format = 'markdown') => {
     const res = await fetch(`${BASE_URL}/story_optimization/${optimizationId}/export?format=${format}`)
 
@@ -283,7 +284,7 @@ export const exportUserStoryOptimization = async (optimizationId, format = 'mark
     downloadBlob(await res.blob(), filenameMap[format] || filenameMap.markdown)
 }
 
-// ⭐ 智能体配置：展示作用、读取提示词、保存提示词
+//智能体配置：展示作用、读取提示词、保存提示词
 export const getAgentConfigs = async () => {
     const res = await fetch(`${BASE_URL}/agents/config`)
     if (!res.ok) {
