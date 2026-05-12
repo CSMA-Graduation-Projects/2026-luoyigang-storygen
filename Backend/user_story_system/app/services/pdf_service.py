@@ -2,6 +2,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 from reportlab.pdfbase.ttfonts import TTFont
 
 import os
@@ -9,19 +10,41 @@ import re
 from datetime import datetime
 
 
-# ========================
 # 注册中文字体
-# ========================
-font_path = "C:/Windows/Fonts/simsun.ttc"
-pdfmetrics.registerFont(TTFont("SimSun", font_path))
+def register_chinese_font() -> str:
+    """注册中文字体，兼容 Windows 本地运行和 Linux/Docker 运行。"""
+    candidates = [
+        os.getenv("PDF_FONT_PATH", ""),
+        "C:/Windows/Fonts/simsun.ttc",
+        "C:/Windows/Fonts/simsun.ttf",
+        "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+        "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/truetype/arphic/uming.ttc",
+    ]
+
+    for font_path in candidates:
+        if font_path and os.path.exists(font_path):
+            try:
+                pdfmetrics.registerFont(TTFont("SimSun", font_path))
+                return "SimSun"
+            except Exception:
+                continue
+
+    # Docker/Linux 下最稳妥的兜底方案：使用 ReportLab 内置 CID 中文字体，不依赖外部字体文件
+    pdfmetrics.registerFont(UnicodeCIDFont("STSong-Light"))
+    return "STSong-Light"
 
 
-# ========================
+PDF_FONT_NAME = register_chinese_font()
+
 #  Markdown 清洗函数
-# ========================
 def strip_markdown(text: str) -> str:
     if not text:
         return ""
+
+    # 转义可能破坏 Paragraph XML 的特殊字符
+    text = str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
     # 标题加粗
     text = re.sub(r"###\s*(.*)", r"<b>\1</b>", text)
@@ -60,7 +83,7 @@ def generate_pdf(requirement, sub_requirements, final_stories):
     title_style = ParagraphStyle(
         "TitleCN",
         parent=styles["Title"],
-        fontName="SimSun",
+        fontName=PDF_FONT_NAME,
         fontSize=18,
         leading=24,
         spaceAfter=12
@@ -70,7 +93,7 @@ def generate_pdf(requirement, sub_requirements, final_stories):
     heading_style = ParagraphStyle(
         "HeadingCN",
         parent=styles["Heading2"],
-        fontName="SimSun",
+        fontName=PDF_FONT_NAME,
         fontSize=14,
         leading=20,
         spaceBefore=10,
@@ -81,7 +104,7 @@ def generate_pdf(requirement, sub_requirements, final_stories):
     body_style = ParagraphStyle(
         "BodyCN",
         parent=styles["BodyText"],
-        fontName="SimSun",
+        fontName=PDF_FONT_NAME,
         fontSize=11,
         leading=18
     )
