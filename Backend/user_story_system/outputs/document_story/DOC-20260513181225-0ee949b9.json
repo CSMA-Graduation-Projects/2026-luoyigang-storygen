@@ -1,0 +1,1320 @@
+{
+  "document_id": "DOC-20260513181225-0ee949b9",
+  "filename": "需求文档到用户故事测试文档.docx",
+  "extension": ".docx",
+  "summary": "在线课程学习平台需求说明书，涵盖用户账号、课程浏览、课程学习、作业测验、通知中心、学习分析、教师后台、管理员后台及非功能性需求，支持学生、教师和管理员三类角色。",
+  "modules": [
+    "用户账号",
+    "课程浏览",
+    "课程学习",
+    "作业测验",
+    "学习分析",
+    "通知中心",
+    "教师后台",
+    "管理员后台",
+    "数据安全与性能"
+  ],
+  "requirements": [
+    {
+      "id": "REQ-FR-01",
+      "title": "注册与登录",
+      "module": "用户账号",
+      "type": "functional",
+      "priority": "high",
+      "description": "学生、教师和管理员应能够使用手机号或邮箱注册账号，并通过账号密码登录系统。登录失败超过5次时，系统应临时锁定账号10分钟。",
+      "source_text": "学生、教师和管理员应能够使用手机号或邮箱注册账号，并通过账号密码登录系统。登录失败超过5次时，系统应临时锁定账号10分钟。",
+      "user_stories": [
+        {
+          "id": "US-FR-01-1",
+          "role": "学生、教师和管理员",
+          "want": "使用手机号或邮箱注册账号",
+          "benefit": "快速创建个人账户以使用平台功能",
+          "story": "As a 学生、教师或管理员, I want 使用手机号或邮箱注册账号, So that 快速创建个人账户以使用平台功能",
+          "acceptance_criteria": [
+            "Given 用户未注册，When 输入有效手机号或邮箱并设置密码，Then 系统创建账号并发送验证码",
+            "Given 用户已注册，When 使用相同手机号或邮箱再次注册，Then 系统提示账号已存在"
+          ],
+          "notes": "注册时需校验手机号/邮箱格式"
+        },
+        {
+          "id": "US-FR-01-2",
+          "role": "学生、教师和管理员",
+          "want": "通过账号密码登录系统",
+          "benefit": "安全访问个人账户和平台功能",
+          "story": "As a 学生、教师或管理员, I want 通过账号密码登录系统, So that 安全访问个人账户和平台功能",
+          "acceptance_criteria": [
+            "Given 用户输入正确账号密码，When 点击登录，Then 系统验证通过并跳转首页",
+            "Given 用户连续输入错误密码5次，When 第6次尝试登录，Then 系统显示账号已锁定，10分钟内无法登录"
+          ],
+          "notes": "锁定时间10分钟，期间即使正确密码也无法登录"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-02：用户密码必须加密存储；涉及验证码、登录令牌的接口需要进行权限校验与过期控制。"
+      ]
+    },
+    {
+      "id": "REQ-FR-02",
+      "title": "找回密码",
+      "module": "用户账号",
+      "type": "functional",
+      "priority": "high",
+      "description": "用户忘记密码时，可以通过邮箱验证码或手机号验证码重置密码。验证码有效期为5分钟。",
+      "source_text": "用户忘记密码时，可以通过邮箱验证码或手机号验证码重置密码。验证码有效期为5分钟。",
+      "user_stories": [
+        {
+          "id": "US-FR-02",
+          "role": "学生、教师和管理员",
+          "want": "通过邮箱或手机验证码重置密码",
+          "benefit": "在忘记密码时能重新设置密码，恢复账户访问",
+          "story": "As a 学生、教师或管理员, I want 通过邮箱或手机验证码重置密码, So that 在忘记密码时能重新设置密码，恢复账户访问",
+          "acceptance_criteria": [
+            "Given 用户进入找回密码页面，When 输入已注册的邮箱或手机号并点击获取验证码，Then 系统发送有效期为5分钟的验证码",
+            "Given 用户输入正确的验证码和新密码，When 提交重置，Then 系统更新密码并提示成功",
+            "Given 用户输入过期或错误的验证码，When 提交重置，Then 系统提示验证码无效"
+          ],
+          "notes": "验证码5分钟有效，超时需重新获取"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-02：涉及验证码的接口需要进行权限校验与过期控制。"
+      ]
+    },
+    {
+      "id": "REQ-FR-03",
+      "title": "课程搜索与筛选",
+      "module": "课程浏览",
+      "type": "functional",
+      "priority": "high",
+      "description": "学生可以按照课程名称、教师、分类、难度、评分和更新时间搜索课程，并支持组合筛选。",
+      "source_text": "学生可以按照课程名称、教师、分类、难度、评分和更新时间搜索课程，并支持组合筛选。",
+      "user_stories": [
+        {
+          "id": "US-FR-03",
+          "role": "学生",
+          "want": "按照课程名称、教师、分类、难度、评分和更新时间搜索及筛选课程",
+          "benefit": "快速找到符合学习目标的课程",
+          "story": "As a 学生, I want 按照课程名称、教师、分类、难度、评分和更新时间搜索及筛选课程, So that 快速找到符合学习目标的课程",
+          "acceptance_criteria": [
+            "Given 学生进入课程列表页面，When 输入课程名称并选择分类、难度和评分条件，Then 系统返回符合条件的课程列表",
+            "Given 无匹配课程，When 执行搜索，Then 系统显示空结果提示",
+            "Given 搜索结果存在，When 查看，Then 支持按更新时间或评分排序"
+          ],
+          "notes": "组合筛选各条件为与关系"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-01：课程列表页面在2秒内完成响应；并发500名学生时核心查询接口平均响应不超过3秒。"
+      ]
+    },
+    {
+      "id": "REQ-FR-04",
+      "title": "课程详情查看",
+      "module": "课程浏览",
+      "type": "functional",
+      "priority": "high",
+      "description": "学生点击课程后，可以查看课程简介、章节目录、教师介绍、课程评分、学习人数和课程评价。",
+      "source_text": "学生点击课程后，可以查看课程简介、章节目录、教师介绍、课程评分、学习人数和课程评价。",
+      "user_stories": [
+        {
+          "id": "US-FR-04",
+          "role": "学生",
+          "want": "查看课程详细信息（简介、目录、教师、评分、人数、评价）",
+          "benefit": "全面了解课程内容以决定是否加入",
+          "story": "As a 学生, I want 查看课程详细信息（简介、目录、教师、评分、人数、评价）, So that 全面了解课程内容以决定是否加入",
+          "acceptance_criteria": [
+            "Given 学生点击某门课程，When 进入详情页，Then 系统显示课程简介、章节目录、教师介绍、课程评分、学习人数和评价列表",
+            "Given 课程信息完整，When 加载，Then 所有字段正确显示"
+          ],
+          "notes": "评价来自已加入课程的学生"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-01：课程详情页面在2秒内完成响应。"
+      ]
+    },
+    {
+      "id": "REQ-FR-05",
+      "title": "加入课程",
+      "module": "课程学习",
+      "type": "functional",
+      "priority": "high",
+      "description": "学生可以加入免费课程；对于需要审核的课程，学生提交申请后由教师审批。",
+      "source_text": "学生可以加入免费课程；对于需要审核的课程，学生提交申请后由教师审批。",
+      "user_stories": [
+        {
+          "id": "US-FR-05-1",
+          "role": "学生",
+          "want": "免费加入无需审核的课程",
+          "benefit": "立即开始学习",
+          "story": "As a 学生, I want 免费加入无需审核的课程, So that 立即开始学习",
+          "acceptance_criteria": [
+            "Given 学生点击免费课程页面的“加入课程”按钮，When 确认加入，Then 系统将该学生添加为课程成员并跳转到学习页面"
+          ],
+          "notes": ""
+        },
+        {
+          "id": "US-FR-05-2",
+          "role": "学生",
+          "want": "提交申请加入需要审核的课程",
+          "benefit": "获得教师批准后开始学习",
+          "story": "As a 学生, I want 提交申请加入需要审核的课程, So that 获得教师批准后开始学习",
+          "acceptance_criteria": [
+            "Given 学生点击需要审核课程页面的“申请加入”按钮，When 提交申请，Then 系统通知教师，并显示申请待审核",
+            "Given 教师批准申请，When 状态更新，Then 学生收到通知并成为课程成员"
+          ],
+          "notes": ""
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-03：错误提示清晰可理解，提交失败时保留已填写内容。"
+      ]
+    },
+    {
+      "id": "REQ-FR-06",
+      "title": "视频学习与进度记录",
+      "module": "课程学习",
+      "type": "functional",
+      "priority": "high",
+      "description": "学生观看课程视频时，系统应自动记录观看进度，并在学生再次进入课程时从上次位置继续播放。",
+      "source_text": "学生观看课程视频时，系统应自动记录观看进度，并在学生再次进入课程时从上次位置继续播放。",
+      "user_stories": [
+        {
+          "id": "US-FR-06",
+          "role": "学生",
+          "want": "系统自动记录视频观看进度并支持断点续播",
+          "benefit": "无需手动记录位置，节省时间提升学习体验",
+          "story": "As a 学生, I want 系统自动记录视频观看进度并支持断点续播, So that 无需手动记录位置，节省时间提升学习体验",
+          "acceptance_criteria": [
+            "Given 学生已加入课程，When 观看视频超过10秒后退出页面，Then 系统保存最新播放位置",
+            "Given 学生再次进入同一视频，When 开始播放，Then 系统提示是否从上次位置继续播放"
+          ],
+          "notes": "进度保存间隔可配置，默认10秒"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-01：视频加载和进度保存应快速响应。"
+      ]
+    },
+    {
+      "id": "REQ-FR-07",
+      "title": "课程笔记",
+      "module": "课程学习",
+      "type": "functional",
+      "priority": "medium",
+      "description": "学生在观看视频时可以创建课程笔记，笔记应记录所属课程、章节、视频时间点和笔记内容。",
+      "source_text": "学生在观看视频时可以创建课程笔记，笔记应记录所属课程、章节、视频时间点和笔记内容。",
+      "user_stories": [
+        {
+          "id": "US-FR-07",
+          "role": "学生",
+          "want": "在观看视频时创建并保存课程笔记（含时间戳）",
+          "benefit": "方便回顾和整理学习要点",
+          "story": "As a 学生, I want 在观看视频时创建并保存课程笔记（含时间戳）, So that 方便回顾和整理学习要点",
+          "acceptance_criteria": [
+            "Given 学生在视频播放页面，When 点击“添加笔记”并输入内容，Then 系统保存笔记并关联当前课程、章节和视频时间点",
+            "Given 学生查看笔记列表，When 点击某条笔记，Then 视频跳转到对应时间点"
+          ],
+          "notes": "笔记支持后续编辑和删除"
+        }
+      ],
+      "non_functional_constraints": []
+    },
+    {
+      "id": "REQ-FR-08",
+      "title": "作业发布",
+      "module": "作业测验",
+      "type": "functional",
+      "priority": "high",
+      "description": "教师可以为课程章节发布作业，设置截止时间、提交格式、满分分值和是否允许补交。",
+      "source_text": "教师可以为课程章节发布作业，设置截止时间、提交格式、满分分值和是否允许补交。",
+      "user_stories": [
+        {
+          "id": "US-FR-08",
+          "role": "教师",
+          "want": "为课程章节发布作业并配置参数（截止时间、格式、分值、补交选项）",
+          "benefit": "明确作业要求，规范学生提交",
+          "story": "As a 教师, I want 为课程章节发布作业并配置参数（截止时间、格式、分值、补交选项）, So that 明确作业要求，规范学生提交",
+          "acceptance_criteria": [
+            "Given 教师进入课程章节管理页面，When 点击“发布作业”并填写所有必填项，Then 系统创建作业并通知学生",
+            "Given 教师未设置截止时间或提交格式，When 提交，Then 系统提示需要完善必填项"
+          ],
+          "notes": "作业发布后教师可修改参数，但截止时间不可提前至当前时间之前"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-03：表单提交失败时保留已填写内容。"
+      ]
+    },
+    {
+      "id": "REQ-FR-09",
+      "title": "作业提交",
+      "module": "作业测验",
+      "type": "functional",
+      "priority": "high",
+      "description": "学生可以在线填写作业或上传附件提交作业。截止时间后，系统应根据教师设置判断是否允许补交。",
+      "source_text": "学生可以在线填写作业或上传附件提交作业。截止时间后，系统应根据教师设置判断是否允许补交。",
+      "user_stories": [
+        {
+          "id": "US-FR-09",
+          "role": "学生",
+          "want": "在截止时间前提交作业（文本或附件），并知晓补交规则",
+          "benefit": "按时完成作业并获得成绩",
+          "story": "As a 学生, I want 在截止时间前提交作业（文本或附件），并知晓补交规则, So that 按时完成作业并获得成绩",
+          "acceptance_criteria": [
+            "Given 教师已发布作业且未到截止时间，When 学生提交文本或附件，Then 系统保存提交记录并显示提交成功",
+            "Given 提交格式不符合要求（如附件类型不对），When 提交，Then 系统提示错误原因",
+            "Given 过了截止时间且教师设置允许补交，When 学生提交，Then 系统保存并标记为补交",
+            "Given 过了截止时间且教师设置不允许补交，When 学生提交，Then 系统提示已过截止时间无法提交"
+          ],
+          "notes": "附件格式限制由教师设定"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-03：错误提示清晰可理解。"
+      ]
+    },
+    {
+      "id": "REQ-FR-10",
+      "title": "作业批改与反馈",
+      "module": "作业测验",
+      "type": "functional",
+      "priority": "high",
+      "description": "教师可以查看学生提交的作业，给出分数、评语和修改建议，学生可以查看批改结果。",
+      "source_text": "教师可以查看学生提交的作业，给出分数、评语和修改建议，学生可以查看批改结果。",
+      "user_stories": [
+        {
+          "id": "US-FR-10-1",
+          "role": "教师",
+          "want": "查看学生作业并给出分数、评语和修改建议",
+          "benefit": "及时反馈学生学习情况",
+          "story": "As a 教师, I want 查看学生作业并给出分数、评语和修改建议, So that 及时反馈学生学习情况",
+          "acceptance_criteria": [
+            "Given 教师进入作业批改页面，When 查看某学生提交的作业，Then 系统展示作业内容",
+            "Given 教师输入分数和评语，When 提交批改，Then 系统保存并通知学生"
+          ],
+          "notes": "分数不得超过满分分值"
+        },
+        {
+          "id": "US-FR-10-2",
+          "role": "学生",
+          "want": "查看作业批改结果（分数、评语）",
+          "benefit": "了解作业完成质量并改进",
+          "story": "As a 学生, I want 查看作业批改结果（分数、评语）, So that 了解作业完成质量并改进",
+          "acceptance_criteria": [
+            "Given 教师已批改作业，When 学生进入作业详情，Then 系统显示分数和评语"
+          ],
+          "notes": ""
+        }
+      ],
+      "non_functional_constraints": []
+    },
+    {
+      "id": "REQ-FR-11",
+      "title": "在线测验",
+      "module": "作业测验",
+      "type": "functional",
+      "priority": "high",
+      "description": "教师可以创建单选题、多选题、判断题和简答题测验。系统应支持自动评分客观题。",
+      "source_text": "教师可以创建单选题、多选题、判断题和简答题测验。系统应支持自动评分客观题。",
+      "user_stories": [
+        {
+          "id": "US-FR-11-1",
+          "role": "教师",
+          "want": "创建包含多种题型的测验（单选、多选、判断、简答）",
+          "benefit": "灵活设计考核内容",
+          "story": "As a 教师, I want 创建包含多种题型的测验（单选、多选、判断、简答）, So that 灵活设计考核内容",
+          "acceptance_criteria": [
+            "Given 教师进入测验创建页面，When 添加单选、多选、判断、简答题并设置正确答案和分值，Then 系统保存测验并发布"
+          ],
+          "notes": "客观题（单选、多选、判断）需预设正确答案"
+        },
+        {
+          "id": "US-FR-11-2",
+          "role": "学生",
+          "want": "参加测验并得到客观题自动评分结果",
+          "benefit": "即时了解客观题得分",
+          "story": "As a 学生, I want 参加测验并得到客观题自动评分结果, So that 即时了解客观题得分",
+          "acceptance_criteria": [
+            "Given 学生进入测验页面，When 完成所有题目并提交，Then 系统自动评分客观题并显示得分，简答题等待教师批改"
+          ],
+          "notes": "简答题需教师手动评分"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-01：并发500名学生同时参加测验时，自动评分接口应在3秒内响应。"
+      ]
+    },
+    {
+      "id": "REQ-FR-12",
+      "title": "学习进度统计",
+      "module": "学习分析",
+      "type": "functional",
+      "priority": "medium",
+      "description": "学生可以查看自己的课程完成度、视频观看时长、作业提交情况和测验成绩。教师可以查看课程维度的学生学习统计。",
+      "source_text": "学生可以查看自己的课程完成度、视频观看时长、作业提交情况和测验成绩。教师可以查看课程维度的学生学习统计。",
+      "user_stories": [
+        {
+          "id": "US-FR-12-1",
+          "role": "学生",
+          "want": "查看个人学习进度（完成度、视频时长、作业、测验成绩）",
+          "benefit": "了解自身学习状况，调整学习计划",
+          "story": "As a 学生, I want 查看个人学习进度（完成度、视频时长、作业、测验成绩）, So that 了解自身学习状况，调整学习计划",
+          "acceptance_criteria": [
+            "Given 学生进入课程学习进度页面，When 加载，Then 系统显示课程完成度、视频观看总时长、作业提交次数和测验平均分",
+            "Given 数据发生变化，When 刷新，Then 数据实时更新"
+          ],
+          "notes": ""
+        },
+        {
+          "id": "US-FR-12-2",
+          "role": "教师",
+          "want": "查看课程维度下所有学生的学习统计",
+          "benefit": "掌握整体教学效果，针对性地辅导",
+          "story": "As a 教师, I want 查看课程维度下所有学生的学习统计, So that 掌握整体教学效果，针对性地辅导",
+          "acceptance_criteria": [
+            "Given 教师进入课程统计页面，When 选择某门课程，Then 系统展示所有学生的视频完成度、作业完成率、测验平均分等统计数据"
+          ],
+          "notes": "统计可导出"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-01：统计页面在2秒内加载完毕，并发500人时平均响应不超过3秒。"
+      ]
+    },
+    {
+      "id": "REQ-FR-13",
+      "title": "通知消息",
+      "module": "通知中心",
+      "type": "functional",
+      "priority": "medium",
+      "description": "系统应在课程审核通过、作业发布、作业即将截止、作业批改完成、测验发布时向相关用户发送站内通知。",
+      "source_text": "系统应在课程审核通过、作业发布、作业即将截止、作业批改完成、测验发布时向相关用户发送站内通知。",
+      "user_stories": [
+        {
+          "id": "US-FR-13",
+          "role": "学生和教师",
+          "want": "在关键事件发生时收到站内通知（课程审核、作业相关、测验发布）",
+          "benefit": "及时获取重要信息，不错过截止时间",
+          "story": "As a 学生或教师, I want 在关键事件发生时收到站内通知（课程审核、作业相关、测验发布）, So that 及时获取重要信息，不错过截止时间",
+          "acceptance_criteria": [
+            "Given 课程审核通过，When 状态变更，Then 系统向课程创建者发送站内通知",
+            "Given 教师发布作业或测验，When 发布成功，Then 系统向课程内所有学生发送通知",
+            "Given 作业即将截止（如24小时前），When 时间到达，Then 系统向未提交学生发送提醒通知",
+            "Given 教师批改完成，When 批改提交，Then 系统向该学生发送通知"
+          ],
+          "notes": "通知包含标题、内容、时间、跳转链接"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-01：通知推送应在事件发生后1秒内完成。"
+      ]
+    },
+    {
+      "id": "REQ-FR-14",
+      "title": "课程管理",
+      "module": "教师后台",
+      "type": "functional",
+      "priority": "high",
+      "description": "教师可以创建、编辑、上架、下架课程，并维护课程章节和学习资源。",
+      "source_text": "教师可以创建、编辑、上架、下架课程，并维护课程章节和学习资源。",
+      "user_stories": [
+        {
+          "id": "US-FR-14",
+          "role": "教师",
+          "want": "管理课程（创建、编辑、上架、下架）并维护章节和资源",
+          "benefit": "灵活控制课程内容和状态",
+          "story": "As a 教师, I want 管理课程（创建、编辑、上架、下架）并维护章节和资源, So that 灵活控制课程内容和状态",
+          "acceptance_criteria": [
+            "Given 教师进入课程管理后台，When 创建新课程并填写信息，Then 系统保存为草稿状态",
+            "Given 教师编辑已有课程，When 修改内容并保存，Then 系统更新课程信息",
+            "Given 教师上架课程，When 点击上架，Then 课程对可见学生开放",
+            "Given 教师下架课程，When 点击下架，Then 课程不可见且学生无法继续学习（已加入学生保留记录）"
+          ],
+          "notes": "教师只能管理自己创建的课程"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-04：兼容主流浏览器。"
+      ]
+    },
+    {
+      "id": "REQ-FR-15",
+      "title": "用户与分类管理",
+      "module": "管理员后台",
+      "type": "functional",
+      "priority": "high",
+      "description": "管理员可以启用或禁用用户账号，维护课程分类，发布系统公告，并查看平台运行数据。",
+      "source_text": "管理员可以启用或禁用用户账号，维护课程分类，发布系统公告，并查看平台运行数据。",
+      "user_stories": [
+        {
+          "id": "US-FR-15-1",
+          "role": "管理员",
+          "want": "管理用户账号（启用/禁用）",
+          "benefit": "维护平台用户秩序",
+          "story": "As a 管理员, I want 管理用户账号（启用/禁用）, So that 维护平台用户秩序",
+          "acceptance_criteria": [
+            "Given 管理员进入用户管理页面，When 禁用某用户账号，Then 该用户无法登录系统",
+            "Given 管理员启用已禁用账号，When 操作，Then 用户恢复登录"
+          ],
+          "notes": ""
+        },
+        {
+          "id": "US-FR-15-2",
+          "role": "管理员",
+          "want": "维护课程分类（增删改）",
+          "benefit": "使课程结构清晰，便于学生搜索",
+          "story": "As a 管理员, I want 维护课程分类（增删改）, So that 使课程结构清晰，便于学生搜索",
+          "acceptance_criteria": [
+            "Given 管理员进入分类管理页面，When 添加、编辑或删除分类，Then 系统更新分类列表"
+          ],
+          "notes": "删除分类时需确认无课程关联"
+        },
+        {
+          "id": "US-FR-15-3",
+          "role": "管理员",
+          "want": "发布系统公告",
+          "benefit": "通知所有用户重要信息",
+          "story": "As a 管理员, I want 发布系统公告, So that 通知所有用户重要信息",
+          "acceptance_criteria": [
+            "Given 管理员填写公告内容并发布，When 提交，Then 系统公告在所有用户首页展示"
+          ],
+          "notes": "公告支持置顶和过期时间"
+        },
+        {
+          "id": "US-FR-15-4",
+          "role": "管理员",
+          "want": "查看平台运行数据（用户数、课程数、活跃度等）",
+          "benefit": "了解平台运营状况",
+          "story": "As a 管理员, I want 查看平台运行数据（用户数、课程数、活跃度等）, So that 了解平台运营状况",
+          "acceptance_criteria": [
+            "Given 管理员进入数据看板，When 加载，Then 系统展示总用户数、课程数、日活跃用户等统计图表"
+          ],
+          "notes": "数据每日更新"
+        }
+      ],
+      "non_functional_constraints": [
+        "NFR-06：学习记录等数据每日备份。"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "source": "REQ-FR-02",
+      "target": "REQ-FR-01",
+      "type": "depends_on",
+      "label": "找回密码功能（FR-02）依赖用户账号存在（FR-01）。"
+    },
+    {
+      "source": "REQ-FR-04",
+      "target": "REQ-FR-03",
+      "type": "depends_on",
+      "label": "课程详情查看（FR-04）通常依赖搜索或筛选结果（FR-03）进入。"
+    },
+    {
+      "source": "REQ-FR-05",
+      "target": "REQ-FR-04",
+      "type": "depends_on",
+      "label": "加入课程（FR-05）需先查看课程详情（FR-04）以决定是否加入。"
+    },
+    {
+      "source": "REQ-FR-06",
+      "target": "REQ-FR-05",
+      "type": "depends_on",
+      "label": "视频学习与进度记录（FR-06）依赖学生已加入课程（FR-05）。"
+    },
+    {
+      "source": "REQ-FR-07",
+      "target": "REQ-FR-05",
+      "type": "depends_on",
+      "label": "课程笔记（FR-07）依赖学生已加入课程（FR-05）。"
+    },
+    {
+      "source": "REQ-FR-09",
+      "target": "REQ-FR-08",
+      "type": "depends_on",
+      "label": "作业提交（FR-09）依赖教师已发布作业（FR-08）。"
+    },
+    {
+      "source": "REQ-FR-10",
+      "target": "REQ-FR-09",
+      "type": "depends_on",
+      "label": "作业批改与反馈（FR-10）依赖学生已提交作业（FR-09）。"
+    },
+    {
+      "source": "REQ-FR-12",
+      "target": "REQ-FR-06",
+      "type": "related_to",
+      "label": "学习进度统计（FR-12）需要整合视频观看进度数据（FR-06）。"
+    },
+    {
+      "source": "REQ-FR-12",
+      "target": "REQ-FR-09",
+      "type": "related_to",
+      "label": "学习进度统计（FR-12）需要整合作业提交数据（FR-09）。"
+    },
+    {
+      "source": "REQ-FR-12",
+      "target": "REQ-FR-11",
+      "type": "related_to",
+      "label": "学习进度统计（FR-12）需要整合测验成绩数据（FR-11）。"
+    },
+    {
+      "source": "REQ-FR-13",
+      "target": "REQ-FR-05",
+      "type": "related_to",
+      "label": "通知消息（FR-13）需响应课程审核（与FR-05相关）事件。"
+    },
+    {
+      "source": "REQ-FR-13",
+      "target": "REQ-FR-08",
+      "type": "related_to",
+      "label": "通知消息（FR-13）需响应作业发布（FR-08）事件。"
+    },
+    {
+      "source": "REQ-FR-13",
+      "target": "REQ-FR-10",
+      "type": "related_to",
+      "label": "通知消息（FR-13）需响应作业批改完成（FR-10）事件。"
+    },
+    {
+      "source": "REQ-FR-13",
+      "target": "REQ-FR-11",
+      "type": "related_to",
+      "label": "通知消息（FR-13）需响应测验发布（FR-11）事件。"
+    },
+    {
+      "source": "REQ-FR-14",
+      "target": "REQ-FR-08",
+      "type": "related_to",
+      "label": "教师后台课程管理（FR-14）会影响作业发布（FR-08）的范围。"
+    },
+    {
+      "source": "REQ-FR-14",
+      "target": "REQ-FR-11",
+      "type": "related_to",
+      "label": "教师后台课程管理（FR-14）会影响测验发布（FR-11）的范围。"
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "REQ-FR-01",
+        "name": "REQ-FR-01\n注册与登录",
+        "category": 3,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-01",
+          "title": "注册与登录",
+          "module": "用户账号",
+          "type": "functional",
+          "priority": "high",
+          "description": "学生、教师和管理员应能够使用手机号或邮箱注册账号，并通过账号密码登录系统。登录失败超过5次时，系统应临时锁定账号10分钟。",
+          "source_text": "学生、教师和管理员应能够使用手机号或邮箱注册账号，并通过账号密码登录系统。登录失败超过5次时，系统应临时锁定账号10分钟。",
+          "user_stories": [
+            {
+              "id": "US-FR-01-1",
+              "role": "学生、教师和管理员",
+              "want": "使用手机号或邮箱注册账号",
+              "benefit": "快速创建个人账户以使用平台功能",
+              "story": "As a 学生、教师或管理员, I want 使用手机号或邮箱注册账号, So that 快速创建个人账户以使用平台功能",
+              "acceptance_criteria": [
+                "Given 用户未注册，When 输入有效手机号或邮箱并设置密码，Then 系统创建账号并发送验证码",
+                "Given 用户已注册，When 使用相同手机号或邮箱再次注册，Then 系统提示账号已存在"
+              ],
+              "notes": "注册时需校验手机号/邮箱格式"
+            },
+            {
+              "id": "US-FR-01-2",
+              "role": "学生、教师和管理员",
+              "want": "通过账号密码登录系统",
+              "benefit": "安全访问个人账户和平台功能",
+              "story": "As a 学生、教师或管理员, I want 通过账号密码登录系统, So that 安全访问个人账户和平台功能",
+              "acceptance_criteria": [
+                "Given 用户输入正确账号密码，When 点击登录，Then 系统验证通过并跳转首页",
+                "Given 用户连续输入错误密码5次，When 第6次尝试登录，Then 系统显示账号已锁定，10分钟内无法登录"
+              ],
+              "notes": "锁定时间10分钟，期间即使正确密码也无法登录"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-02：用户密码必须加密存储；涉及验证码、登录令牌的接口需要进行权限校验与过期控制。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-02",
+        "name": "REQ-FR-02\n找回密码",
+        "category": 3,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-02",
+          "title": "找回密码",
+          "module": "用户账号",
+          "type": "functional",
+          "priority": "high",
+          "description": "用户忘记密码时，可以通过邮箱验证码或手机号验证码重置密码。验证码有效期为5分钟。",
+          "source_text": "用户忘记密码时，可以通过邮箱验证码或手机号验证码重置密码。验证码有效期为5分钟。",
+          "user_stories": [
+            {
+              "id": "US-FR-02",
+              "role": "学生、教师和管理员",
+              "want": "通过邮箱或手机验证码重置密码",
+              "benefit": "在忘记密码时能重新设置密码，恢复账户访问",
+              "story": "As a 学生、教师或管理员, I want 通过邮箱或手机验证码重置密码, So that 在忘记密码时能重新设置密码，恢复账户访问",
+              "acceptance_criteria": [
+                "Given 用户进入找回密码页面，When 输入已注册的邮箱或手机号并点击获取验证码，Then 系统发送有效期为5分钟的验证码",
+                "Given 用户输入正确的验证码和新密码，When 提交重置，Then 系统更新密码并提示成功",
+                "Given 用户输入过期或错误的验证码，When 提交重置，Then 系统提示验证码无效"
+              ],
+              "notes": "验证码5分钟有效，超时需重新获取"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-02：涉及验证码的接口需要进行权限校验与过期控制。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-03",
+        "name": "REQ-FR-03\n课程搜索与筛选",
+        "category": 6,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-03",
+          "title": "课程搜索与筛选",
+          "module": "课程浏览",
+          "type": "functional",
+          "priority": "high",
+          "description": "学生可以按照课程名称、教师、分类、难度、评分和更新时间搜索课程，并支持组合筛选。",
+          "source_text": "学生可以按照课程名称、教师、分类、难度、评分和更新时间搜索课程，并支持组合筛选。",
+          "user_stories": [
+            {
+              "id": "US-FR-03",
+              "role": "学生",
+              "want": "按照课程名称、教师、分类、难度、评分和更新时间搜索及筛选课程",
+              "benefit": "快速找到符合学习目标的课程",
+              "story": "As a 学生, I want 按照课程名称、教师、分类、难度、评分和更新时间搜索及筛选课程, So that 快速找到符合学习目标的课程",
+              "acceptance_criteria": [
+                "Given 学生进入课程列表页面，When 输入课程名称并选择分类、难度和评分条件，Then 系统返回符合条件的课程列表",
+                "Given 无匹配课程，When 执行搜索，Then 系统显示空结果提示",
+                "Given 搜索结果存在，When 查看，Then 支持按更新时间或评分排序"
+              ],
+              "notes": "组合筛选各条件为与关系"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-01：课程列表页面在2秒内完成响应；并发500名学生时核心查询接口平均响应不超过3秒。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-04",
+        "name": "REQ-FR-04\n课程详情查看",
+        "category": 6,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-04",
+          "title": "课程详情查看",
+          "module": "课程浏览",
+          "type": "functional",
+          "priority": "high",
+          "description": "学生点击课程后，可以查看课程简介、章节目录、教师介绍、课程评分、学习人数和课程评价。",
+          "source_text": "学生点击课程后，可以查看课程简介、章节目录、教师介绍、课程评分、学习人数和课程评价。",
+          "user_stories": [
+            {
+              "id": "US-FR-04",
+              "role": "学生",
+              "want": "查看课程详细信息（简介、目录、教师、评分、人数、评价）",
+              "benefit": "全面了解课程内容以决定是否加入",
+              "story": "As a 学生, I want 查看课程详细信息（简介、目录、教师、评分、人数、评价）, So that 全面了解课程内容以决定是否加入",
+              "acceptance_criteria": [
+                "Given 学生点击某门课程，When 进入详情页，Then 系统显示课程简介、章节目录、教师介绍、课程评分、学习人数和评价列表",
+                "Given 课程信息完整，When 加载，Then 所有字段正确显示"
+              ],
+              "notes": "评价来自已加入课程的学生"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-01：课程详情页面在2秒内完成响应。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-05",
+        "name": "REQ-FR-05\n加入课程",
+        "category": 5,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-05",
+          "title": "加入课程",
+          "module": "课程学习",
+          "type": "functional",
+          "priority": "high",
+          "description": "学生可以加入免费课程；对于需要审核的课程，学生提交申请后由教师审批。",
+          "source_text": "学生可以加入免费课程；对于需要审核的课程，学生提交申请后由教师审批。",
+          "user_stories": [
+            {
+              "id": "US-FR-05-1",
+              "role": "学生",
+              "want": "免费加入无需审核的课程",
+              "benefit": "立即开始学习",
+              "story": "As a 学生, I want 免费加入无需审核的课程, So that 立即开始学习",
+              "acceptance_criteria": [
+                "Given 学生点击免费课程页面的“加入课程”按钮，When 确认加入，Then 系统将该学生添加为课程成员并跳转到学习页面"
+              ],
+              "notes": ""
+            },
+            {
+              "id": "US-FR-05-2",
+              "role": "学生",
+              "want": "提交申请加入需要审核的课程",
+              "benefit": "获得教师批准后开始学习",
+              "story": "As a 学生, I want 提交申请加入需要审核的课程, So that 获得教师批准后开始学习",
+              "acceptance_criteria": [
+                "Given 学生点击需要审核课程页面的“申请加入”按钮，When 提交申请，Then 系统通知教师，并显示申请待审核",
+                "Given 教师批准申请，When 状态更新，Then 学生收到通知并成为课程成员"
+              ],
+              "notes": ""
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-03：错误提示清晰可理解，提交失败时保留已填写内容。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-06",
+        "name": "REQ-FR-06\n视频学习与进度记录",
+        "category": 5,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-06",
+          "title": "视频学习与进度记录",
+          "module": "课程学习",
+          "type": "functional",
+          "priority": "high",
+          "description": "学生观看课程视频时，系统应自动记录观看进度，并在学生再次进入课程时从上次位置继续播放。",
+          "source_text": "学生观看课程视频时，系统应自动记录观看进度，并在学生再次进入课程时从上次位置继续播放。",
+          "user_stories": [
+            {
+              "id": "US-FR-06",
+              "role": "学生",
+              "want": "系统自动记录视频观看进度并支持断点续播",
+              "benefit": "无需手动记录位置，节省时间提升学习体验",
+              "story": "As a 学生, I want 系统自动记录视频观看进度并支持断点续播, So that 无需手动记录位置，节省时间提升学习体验",
+              "acceptance_criteria": [
+                "Given 学生已加入课程，When 观看视频超过10秒后退出页面，Then 系统保存最新播放位置",
+                "Given 学生再次进入同一视频，When 开始播放，Then 系统提示是否从上次位置继续播放"
+              ],
+              "notes": "进度保存间隔可配置，默认10秒"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-01：视频加载和进度保存应快速响应。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-07",
+        "name": "REQ-FR-07\n课程笔记",
+        "category": 5,
+        "symbolSize": 52,
+        "value": "medium",
+        "requirement": {
+          "id": "REQ-FR-07",
+          "title": "课程笔记",
+          "module": "课程学习",
+          "type": "functional",
+          "priority": "medium",
+          "description": "学生在观看视频时可以创建课程笔记，笔记应记录所属课程、章节、视频时间点和笔记内容。",
+          "source_text": "学生在观看视频时可以创建课程笔记，笔记应记录所属课程、章节、视频时间点和笔记内容。",
+          "user_stories": [
+            {
+              "id": "US-FR-07",
+              "role": "学生",
+              "want": "在观看视频时创建并保存课程笔记（含时间戳）",
+              "benefit": "方便回顾和整理学习要点",
+              "story": "As a 学生, I want 在观看视频时创建并保存课程笔记（含时间戳）, So that 方便回顾和整理学习要点",
+              "acceptance_criteria": [
+                "Given 学生在视频播放页面，When 点击“添加笔记”并输入内容，Then 系统保存笔记并关联当前课程、章节和视频时间点",
+                "Given 学生查看笔记列表，When 点击某条笔记，Then 视频跳转到对应时间点"
+              ],
+              "notes": "笔记支持后续编辑和删除"
+            }
+          ],
+          "non_functional_constraints": []
+        }
+      },
+      {
+        "id": "REQ-FR-08",
+        "name": "REQ-FR-08\n作业发布",
+        "category": 0,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-08",
+          "title": "作业发布",
+          "module": "作业测验",
+          "type": "functional",
+          "priority": "high",
+          "description": "教师可以为课程章节发布作业，设置截止时间、提交格式、满分分值和是否允许补交。",
+          "source_text": "教师可以为课程章节发布作业，设置截止时间、提交格式、满分分值和是否允许补交。",
+          "user_stories": [
+            {
+              "id": "US-FR-08",
+              "role": "教师",
+              "want": "为课程章节发布作业并配置参数（截止时间、格式、分值、补交选项）",
+              "benefit": "明确作业要求，规范学生提交",
+              "story": "As a 教师, I want 为课程章节发布作业并配置参数（截止时间、格式、分值、补交选项）, So that 明确作业要求，规范学生提交",
+              "acceptance_criteria": [
+                "Given 教师进入课程章节管理页面，When 点击“发布作业”并填写所有必填项，Then 系统创建作业并通知学生",
+                "Given 教师未设置截止时间或提交格式，When 提交，Then 系统提示需要完善必填项"
+              ],
+              "notes": "作业发布后教师可修改参数，但截止时间不可提前至当前时间之前"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-03：表单提交失败时保留已填写内容。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-09",
+        "name": "REQ-FR-09\n作业提交",
+        "category": 0,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-09",
+          "title": "作业提交",
+          "module": "作业测验",
+          "type": "functional",
+          "priority": "high",
+          "description": "学生可以在线填写作业或上传附件提交作业。截止时间后，系统应根据教师设置判断是否允许补交。",
+          "source_text": "学生可以在线填写作业或上传附件提交作业。截止时间后，系统应根据教师设置判断是否允许补交。",
+          "user_stories": [
+            {
+              "id": "US-FR-09",
+              "role": "学生",
+              "want": "在截止时间前提交作业（文本或附件），并知晓补交规则",
+              "benefit": "按时完成作业并获得成绩",
+              "story": "As a 学生, I want 在截止时间前提交作业（文本或附件），并知晓补交规则, So that 按时完成作业并获得成绩",
+              "acceptance_criteria": [
+                "Given 教师已发布作业且未到截止时间，When 学生提交文本或附件，Then 系统保存提交记录并显示提交成功",
+                "Given 提交格式不符合要求（如附件类型不对），When 提交，Then 系统提示错误原因",
+                "Given 过了截止时间且教师设置允许补交，When 学生提交，Then 系统保存并标记为补交",
+                "Given 过了截止时间且教师设置不允许补交，When 学生提交，Then 系统提示已过截止时间无法提交"
+              ],
+              "notes": "附件格式限制由教师设定"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-03：错误提示清晰可理解。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-10",
+        "name": "REQ-FR-10\n作业批改与反馈",
+        "category": 0,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-10",
+          "title": "作业批改与反馈",
+          "module": "作业测验",
+          "type": "functional",
+          "priority": "high",
+          "description": "教师可以查看学生提交的作业，给出分数、评语和修改建议，学生可以查看批改结果。",
+          "source_text": "教师可以查看学生提交的作业，给出分数、评语和修改建议，学生可以查看批改结果。",
+          "user_stories": [
+            {
+              "id": "US-FR-10-1",
+              "role": "教师",
+              "want": "查看学生作业并给出分数、评语和修改建议",
+              "benefit": "及时反馈学生学习情况",
+              "story": "As a 教师, I want 查看学生作业并给出分数、评语和修改建议, So that 及时反馈学生学习情况",
+              "acceptance_criteria": [
+                "Given 教师进入作业批改页面，When 查看某学生提交的作业，Then 系统展示作业内容",
+                "Given 教师输入分数和评语，When 提交批改，Then 系统保存并通知学生"
+              ],
+              "notes": "分数不得超过满分分值"
+            },
+            {
+              "id": "US-FR-10-2",
+              "role": "学生",
+              "want": "查看作业批改结果（分数、评语）",
+              "benefit": "了解作业完成质量并改进",
+              "story": "As a 学生, I want 查看作业批改结果（分数、评语）, So that 了解作业完成质量并改进",
+              "acceptance_criteria": [
+                "Given 教师已批改作业，When 学生进入作业详情，Then 系统显示分数和评语"
+              ],
+              "notes": ""
+            }
+          ],
+          "non_functional_constraints": []
+        }
+      },
+      {
+        "id": "REQ-FR-11",
+        "name": "REQ-FR-11\n在线测验",
+        "category": 0,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-11",
+          "title": "在线测验",
+          "module": "作业测验",
+          "type": "functional",
+          "priority": "high",
+          "description": "教师可以创建单选题、多选题、判断题和简答题测验。系统应支持自动评分客观题。",
+          "source_text": "教师可以创建单选题、多选题、判断题和简答题测验。系统应支持自动评分客观题。",
+          "user_stories": [
+            {
+              "id": "US-FR-11-1",
+              "role": "教师",
+              "want": "创建包含多种题型的测验（单选、多选、判断、简答）",
+              "benefit": "灵活设计考核内容",
+              "story": "As a 教师, I want 创建包含多种题型的测验（单选、多选、判断、简答）, So that 灵活设计考核内容",
+              "acceptance_criteria": [
+                "Given 教师进入测验创建页面，When 添加单选、多选、判断、简答题并设置正确答案和分值，Then 系统保存测验并发布"
+              ],
+              "notes": "客观题（单选、多选、判断）需预设正确答案"
+            },
+            {
+              "id": "US-FR-11-2",
+              "role": "学生",
+              "want": "参加测验并得到客观题自动评分结果",
+              "benefit": "即时了解客观题得分",
+              "story": "As a 学生, I want 参加测验并得到客观题自动评分结果, So that 即时了解客观题得分",
+              "acceptance_criteria": [
+                "Given 学生进入测验页面，When 完成所有题目并提交，Then 系统自动评分客观题并显示得分，简答题等待教师批改"
+              ],
+              "notes": "简答题需教师手动评分"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-01：并发500名学生同时参加测验时，自动评分接口应在3秒内响应。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-12",
+        "name": "REQ-FR-12\n学习进度统计",
+        "category": 1,
+        "symbolSize": 52,
+        "value": "medium",
+        "requirement": {
+          "id": "REQ-FR-12",
+          "title": "学习进度统计",
+          "module": "学习分析",
+          "type": "functional",
+          "priority": "medium",
+          "description": "学生可以查看自己的课程完成度、视频观看时长、作业提交情况和测验成绩。教师可以查看课程维度的学生学习统计。",
+          "source_text": "学生可以查看自己的课程完成度、视频观看时长、作业提交情况和测验成绩。教师可以查看课程维度的学生学习统计。",
+          "user_stories": [
+            {
+              "id": "US-FR-12-1",
+              "role": "学生",
+              "want": "查看个人学习进度（完成度、视频时长、作业、测验成绩）",
+              "benefit": "了解自身学习状况，调整学习计划",
+              "story": "As a 学生, I want 查看个人学习进度（完成度、视频时长、作业、测验成绩）, So that 了解自身学习状况，调整学习计划",
+              "acceptance_criteria": [
+                "Given 学生进入课程学习进度页面，When 加载，Then 系统显示课程完成度、视频观看总时长、作业提交次数和测验平均分",
+                "Given 数据发生变化，When 刷新，Then 数据实时更新"
+              ],
+              "notes": ""
+            },
+            {
+              "id": "US-FR-12-2",
+              "role": "教师",
+              "want": "查看课程维度下所有学生的学习统计",
+              "benefit": "掌握整体教学效果，针对性地辅导",
+              "story": "As a 教师, I want 查看课程维度下所有学生的学习统计, So that 掌握整体教学效果，针对性地辅导",
+              "acceptance_criteria": [
+                "Given 教师进入课程统计页面，When 选择某门课程，Then 系统展示所有学生的视频完成度、作业完成率、测验平均分等统计数据"
+              ],
+              "notes": "统计可导出"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-01：统计页面在2秒内加载完毕，并发500人时平均响应不超过3秒。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-13",
+        "name": "REQ-FR-13\n通知消息",
+        "category": 7,
+        "symbolSize": 52,
+        "value": "medium",
+        "requirement": {
+          "id": "REQ-FR-13",
+          "title": "通知消息",
+          "module": "通知中心",
+          "type": "functional",
+          "priority": "medium",
+          "description": "系统应在课程审核通过、作业发布、作业即将截止、作业批改完成、测验发布时向相关用户发送站内通知。",
+          "source_text": "系统应在课程审核通过、作业发布、作业即将截止、作业批改完成、测验发布时向相关用户发送站内通知。",
+          "user_stories": [
+            {
+              "id": "US-FR-13",
+              "role": "学生和教师",
+              "want": "在关键事件发生时收到站内通知（课程审核、作业相关、测验发布）",
+              "benefit": "及时获取重要信息，不错过截止时间",
+              "story": "As a 学生或教师, I want 在关键事件发生时收到站内通知（课程审核、作业相关、测验发布）, So that 及时获取重要信息，不错过截止时间",
+              "acceptance_criteria": [
+                "Given 课程审核通过，When 状态变更，Then 系统向课程创建者发送站内通知",
+                "Given 教师发布作业或测验，When 发布成功，Then 系统向课程内所有学生发送通知",
+                "Given 作业即将截止（如24小时前），When 时间到达，Then 系统向未提交学生发送提醒通知",
+                "Given 教师批改完成，When 批改提交，Then 系统向该学生发送通知"
+              ],
+              "notes": "通知包含标题、内容、时间、跳转链接"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-01：通知推送应在事件发生后1秒内完成。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-14",
+        "name": "REQ-FR-14\n课程管理",
+        "category": 2,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-14",
+          "title": "课程管理",
+          "module": "教师后台",
+          "type": "functional",
+          "priority": "high",
+          "description": "教师可以创建、编辑、上架、下架课程，并维护课程章节和学习资源。",
+          "source_text": "教师可以创建、编辑、上架、下架课程，并维护课程章节和学习资源。",
+          "user_stories": [
+            {
+              "id": "US-FR-14",
+              "role": "教师",
+              "want": "管理课程（创建、编辑、上架、下架）并维护章节和资源",
+              "benefit": "灵活控制课程内容和状态",
+              "story": "As a 教师, I want 管理课程（创建、编辑、上架、下架）并维护章节和资源, So that 灵活控制课程内容和状态",
+              "acceptance_criteria": [
+                "Given 教师进入课程管理后台，When 创建新课程并填写信息，Then 系统保存为草稿状态",
+                "Given 教师编辑已有课程，When 修改内容并保存，Then 系统更新课程信息",
+                "Given 教师上架课程，When 点击上架，Then 课程对可见学生开放",
+                "Given 教师下架课程，When 点击下架，Then 课程不可见且学生无法继续学习（已加入学生保留记录）"
+              ],
+              "notes": "教师只能管理自己创建的课程"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-04：兼容主流浏览器。"
+          ]
+        }
+      },
+      {
+        "id": "REQ-FR-15",
+        "name": "REQ-FR-15\n用户与分类管理",
+        "category": 4,
+        "symbolSize": 52,
+        "value": "high",
+        "requirement": {
+          "id": "REQ-FR-15",
+          "title": "用户与分类管理",
+          "module": "管理员后台",
+          "type": "functional",
+          "priority": "high",
+          "description": "管理员可以启用或禁用用户账号，维护课程分类，发布系统公告，并查看平台运行数据。",
+          "source_text": "管理员可以启用或禁用用户账号，维护课程分类，发布系统公告，并查看平台运行数据。",
+          "user_stories": [
+            {
+              "id": "US-FR-15-1",
+              "role": "管理员",
+              "want": "管理用户账号（启用/禁用）",
+              "benefit": "维护平台用户秩序",
+              "story": "As a 管理员, I want 管理用户账号（启用/禁用）, So that 维护平台用户秩序",
+              "acceptance_criteria": [
+                "Given 管理员进入用户管理页面，When 禁用某用户账号，Then 该用户无法登录系统",
+                "Given 管理员启用已禁用账号，When 操作，Then 用户恢复登录"
+              ],
+              "notes": ""
+            },
+            {
+              "id": "US-FR-15-2",
+              "role": "管理员",
+              "want": "维护课程分类（增删改）",
+              "benefit": "使课程结构清晰，便于学生搜索",
+              "story": "As a 管理员, I want 维护课程分类（增删改）, So that 使课程结构清晰，便于学生搜索",
+              "acceptance_criteria": [
+                "Given 管理员进入分类管理页面，When 添加、编辑或删除分类，Then 系统更新分类列表"
+              ],
+              "notes": "删除分类时需确认无课程关联"
+            },
+            {
+              "id": "US-FR-15-3",
+              "role": "管理员",
+              "want": "发布系统公告",
+              "benefit": "通知所有用户重要信息",
+              "story": "As a 管理员, I want 发布系统公告, So that 通知所有用户重要信息",
+              "acceptance_criteria": [
+                "Given 管理员填写公告内容并发布，When 提交，Then 系统公告在所有用户首页展示"
+              ],
+              "notes": "公告支持置顶和过期时间"
+            },
+            {
+              "id": "US-FR-15-4",
+              "role": "管理员",
+              "want": "查看平台运行数据（用户数、课程数、活跃度等）",
+              "benefit": "了解平台运营状况",
+              "story": "As a 管理员, I want 查看平台运行数据（用户数、课程数、活跃度等）, So that 了解平台运营状况",
+              "acceptance_criteria": [
+                "Given 管理员进入数据看板，When 加载，Then 系统展示总用户数、课程数、日活跃用户等统计图表"
+              ],
+              "notes": "数据每日更新"
+            }
+          ],
+          "non_functional_constraints": [
+            "NFR-06：学习记录等数据每日备份。"
+          ]
+        }
+      }
+    ],
+    "links": [
+      {
+        "source": "REQ-FR-02",
+        "target": "REQ-FR-01",
+        "name": "找回密码功能（FR-02）依赖用户账号存在（FR-01）。",
+        "relationType": "depends_on"
+      },
+      {
+        "source": "REQ-FR-04",
+        "target": "REQ-FR-03",
+        "name": "课程详情查看（FR-04）通常依赖搜索或筛选结果（FR-03）进入。",
+        "relationType": "depends_on"
+      },
+      {
+        "source": "REQ-FR-05",
+        "target": "REQ-FR-04",
+        "name": "加入课程（FR-05）需先查看课程详情（FR-04）以决定是否加入。",
+        "relationType": "depends_on"
+      },
+      {
+        "source": "REQ-FR-06",
+        "target": "REQ-FR-05",
+        "name": "视频学习与进度记录（FR-06）依赖学生已加入课程（FR-05）。",
+        "relationType": "depends_on"
+      },
+      {
+        "source": "REQ-FR-07",
+        "target": "REQ-FR-05",
+        "name": "课程笔记（FR-07）依赖学生已加入课程（FR-05）。",
+        "relationType": "depends_on"
+      },
+      {
+        "source": "REQ-FR-09",
+        "target": "REQ-FR-08",
+        "name": "作业提交（FR-09）依赖教师已发布作业（FR-08）。",
+        "relationType": "depends_on"
+      },
+      {
+        "source": "REQ-FR-10",
+        "target": "REQ-FR-09",
+        "name": "作业批改与反馈（FR-10）依赖学生已提交作业（FR-09）。",
+        "relationType": "depends_on"
+      },
+      {
+        "source": "REQ-FR-12",
+        "target": "REQ-FR-06",
+        "name": "学习进度统计（FR-12）需要整合视频观看进度数据（FR-06）。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-12",
+        "target": "REQ-FR-09",
+        "name": "学习进度统计（FR-12）需要整合作业提交数据（FR-09）。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-12",
+        "target": "REQ-FR-11",
+        "name": "学习进度统计（FR-12）需要整合测验成绩数据（FR-11）。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-13",
+        "target": "REQ-FR-05",
+        "name": "通知消息（FR-13）需响应课程审核（与FR-05相关）事件。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-13",
+        "target": "REQ-FR-08",
+        "name": "通知消息（FR-13）需响应作业发布（FR-08）事件。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-13",
+        "target": "REQ-FR-10",
+        "name": "通知消息（FR-13）需响应作业批改完成（FR-10）事件。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-13",
+        "target": "REQ-FR-11",
+        "name": "通知消息（FR-13）需响应测验发布（FR-11）事件。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-14",
+        "target": "REQ-FR-08",
+        "name": "教师后台课程管理（FR-14）会影响作业发布（FR-08）的范围。",
+        "relationType": "related_to"
+      },
+      {
+        "source": "REQ-FR-14",
+        "target": "REQ-FR-11",
+        "name": "教师后台课程管理（FR-14）会影响测验发布（FR-11）的范围。",
+        "relationType": "related_to"
+      }
+    ],
+    "categories": [
+      {
+        "name": "作业测验"
+      },
+      {
+        "name": "学习分析"
+      },
+      {
+        "name": "教师后台"
+      },
+      {
+        "name": "用户账号"
+      },
+      {
+        "name": "管理员后台"
+      },
+      {
+        "name": "课程学习"
+      },
+      {
+        "name": "课程浏览"
+      },
+      {
+        "name": "通知中心"
+      }
+    ]
+  },
+  "statistics": {
+    "requirement_count": 15,
+    "functional_count": 15,
+    "non_functional_count": 0,
+    "story_count": 23
+  }
+}

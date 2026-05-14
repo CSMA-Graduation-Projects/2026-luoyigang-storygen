@@ -1,6 +1,6 @@
 // 统一走前端 Nginx 代理：/api -> backend:8000
 const BASE_URL = '/api'
-
+//const BASE_URL = 'http://localhost:8000'
 // 长请求统一超时时间：1小时
 const REQUEST_TIMEOUT = 3600000
 

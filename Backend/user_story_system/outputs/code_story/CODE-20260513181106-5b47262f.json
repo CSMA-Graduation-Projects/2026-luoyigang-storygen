@@ -1,0 +1,108 @@
+{
+  "code_story_id": "CODE-20260513181106-5b47262f",
+  "filename": "main.py",
+  "language": "python",
+  "split_mode": "whole",
+  "summary": "启动FastAPI应用，集成多个路由模块，并配置CORS中间件以允许跨域请求。",
+  "nodes": [
+    {
+      "id": "CODE-001",
+      "name": "main",
+      "qualified_name": "main",
+      "type": "code_block",
+      "language": "python",
+      "file": "main.py",
+      "line": 1,
+      "signature": "整体代码片段",
+      "code_snippet": "from fastapi import FastAPI\nfrom app.api.story_api import router\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom app.api.pdf_api import router as pdf_router\nfrom app.api.document_story_api import router as document_story_router\nfrom app.api.project_story_api import router as project_story_router\nfrom app.api.user_story_optimization_api import router as story_optimization_router\nfrom app.api.history_api import router as history_router\napp = FastAPI(title=\"Multi-Agent User Story System\")\n\n#  解决跨域（关键）\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\napp.include_router(router)\napp.include_router(pdf_router)\napp.include_router(document_story_router)\napp.include_router(project_story_router)\napp.include_router(history_router)\napp.include_router(story_optimization_router)",
+      "docstring": "",
+      "calls": [],
+      "children": [],
+      "parent_id": null,
+      "module": "main",
+      "depth": 0,
+      "split_strategy": "整体分析：未识别到可拆分的函数/方法/类"
+    }
+  ],
+  "edges": [],
+  "graph": {
+    "nodes": [
+      {
+        "id": "CODE-001",
+        "name": "main\ncode_block",
+        "category": 0,
+        "symbolSize": 44,
+        "value": 0,
+        "node": {
+          "id": "CODE-001",
+          "name": "main",
+          "qualified_name": "main",
+          "type": "code_block",
+          "language": "python",
+          "file": "main.py",
+          "line": 1,
+          "signature": "整体代码片段",
+          "code_snippet": "from fastapi import FastAPI\nfrom app.api.story_api import router\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom app.api.pdf_api import router as pdf_router\nfrom app.api.document_story_api import router as document_story_router\nfrom app.api.project_story_api import router as project_story_router\nfrom app.api.user_story_optimization_api import router as story_optimization_router\nfrom app.api.history_api import router as history_router\napp = FastAPI(title=\"Multi-Agent User Story System\")\n\n#  解决跨域（关键）\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\napp.include_router(router)\napp.include_router(pdf_router)\napp.include_router(document_story_router)\napp.include_router(project_story_router)\napp.include_router(history_router)\napp.include_router(story_optimization_router)",
+          "docstring": "",
+          "calls": [],
+          "children": [],
+          "parent_id": null,
+          "module": "main",
+          "depth": 0,
+          "split_strategy": "整体分析：未识别到可拆分的函数/方法/类"
+        }
+      }
+    ],
+    "links": [],
+    "categories": [
+      {
+        "name": "code_block"
+      }
+    ]
+  },
+  "items": [
+    {
+      "node_id": "CODE-001",
+      "requirement": {
+        "title": "后端服务初始化与路由集成",
+        "role": "系统管理员",
+        "description": "系统启动时需初始化FastAPI应用，集成用户故事、PDF、文档故事、项目故事、历史记录、故事优化等多个API路由模块，并配置CORS中间件以允许所有来源的跨域请求。",
+        "business_rules": [
+          "跨域配置必须允许任意来源（allow_origins=[\"*\"]），否则前端可能无法访问。",
+          "所有路由器必须在应用启动前注册，否则相关端点将不可用。",
+          "应用标题固定为\"Multi-Agent User Story System\"。"
+        ]
+      },
+      "user_story": {
+        "id": "US-001",
+        "story": "As a 系统管理员, I want 快速启动并自动集成所有API路由和跨域配置, So that 前端或其他客户端可以无缝访问所有功能模块。",
+        "acceptance_criteria": [
+          "Given 系统启动时，When 初始化FastAPI应用，Then 应成功创建app实例，标题为\"Multi-Agent User Story System\"。",
+          "Given 应用已启动，When 发送任何跨域HTTP请求（如OPTIONS预检），Then 响应头应包含允许所有来源、方法和头的CORS策略。",
+          "Given 应用已启动，When 访问已注册路由（例如/story、/pdf等），Then 应正确路由到对应处理函数并返回预期结果。",
+          "Given 应用已启动，When 访问未注册路径，Then 应返回404错误。"
+        ]
+      },
+      "technical_reasoning": "代码使用FastAPI构造函数创建应用并指定title；通过add_middleware添加CORSMiddleware并设置宽泛的跨域参数（allow_origins=\"*\"等）；通过include_router依次注册6个路由器。这保证了系统启动时具备完整的路由映射和跨域配置，所有功能模块均对外暴露。",
+      "incoming": [],
+      "outgoing": [],
+      "node": {
+        "id": "CODE-001",
+        "name": "main",
+        "qualified_name": "main",
+        "type": "code_block",
+        "language": "python",
+        "file": "main.py",
+        "line": 1,
+        "signature": "整体代码片段",
+        "code_snippet": "from fastapi import FastAPI\nfrom app.api.story_api import router\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom app.api.pdf_api import router as pdf_router\nfrom app.api.document_story_api import router as document_story_router\nfrom app.api.project_story_api import router as project_story_router\nfrom app.api.user_story_optimization_api import router as story_optimization_router\nfrom app.api.history_api import router as history_router\napp = FastAPI(title=\"Multi-Agent User Story System\")\n\n#  解决跨域（关键）\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\napp.include_router(router)\napp.include_router(pdf_router)\napp.include_router(document_story_router)\napp.include_router(project_story_router)\napp.include_router(history_router)\napp.include_router(story_optimization_router)",
+        "split_strategy": "整体分析：未识别到可拆分的函数/方法/类"
+      }
+    }
+  ],
+  "statistics": {
+    "unit_count": 1,
+    "edge_count": 0,
+    "story_count": 1
+  }
+}
